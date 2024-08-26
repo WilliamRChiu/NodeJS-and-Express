@@ -1,34 +1,20 @@
 const express = require('express');
 const app = express();
+const people = require("c:/Users/William/.vscode/Node_JS/2-express-tutorial/routes/people");
+const auth = require("c:/Users/William/.vscode/Node_JS/2-express-tutorial/routes/auth")
+// let {people} = require('c:/Users/William/.vscode/Node_JS/2-express-tutorial/data');
 
-//req=>middleware => res
+//static assets
+app.use(express.static('./methods-public'));
+//parse form data
+app.use(express.urlencoded({extended:false}));
+//parse json
+app.use(express.json());
+
+app.use('/api/people',people);
+app.use('/login',auth);
 
 
-//THIS IS VERY INEFFICIENT. MAKE A FUNCTION INSTEAD
-// app.get('/',(req,res)=>{
-//     const method = req.method;
-//     const url = req.url;
-//     const time = new Date().getFullYear();
-//     console.log(method,url,time);
-//     res.send('Home');
-// });
-
-//this is middleware
-const logger=(req,res,next)=>{
-    const method = req.method;
-    const url = req.url;
-    const time = new Date().getFullYear();
-    console.log(method,url,time);
-    next();
-}
-
-//express automatically passes app through middleware 'logger'
-app.get('/',logger,(req,res)=>{
-    
-})
-app.get('/about',logger, (req,res)=>{
-    res.send('About');
-})
 
 
 app.listen(5000,()=>{
